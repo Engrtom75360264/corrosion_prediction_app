@@ -46,8 +46,8 @@ class _RemainderColsList(list):
 
 ct._RemainderColsList = _RemainderColsList
 
-import joblib
-model = joblib.load(r"C:\Users\HP\streamlit_app\tuned_elasticnet_model.pkl")
+
+
 
 
 
