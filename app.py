@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import joblib # pyright: ignore[reportMissingImports]
 from PIL import Image
+import os
 
 # --- Page Config ---
 st.set_page_config(
@@ -47,18 +48,24 @@ class _RemainderColsList(list):
 ct._RemainderColsList = _RemainderColsList
 
 
-
-
-
-
-
+import joblib
+import os
+import streamlit as st
 
 @st.cache_resource
 def load_model():
-    model = joblib.load(r"C:\Users\HP\streamlit_app\tuned_elasticnet_model.pkl")
+    # Print the directory where this script is running
+    print("📂 Current directory:", os.path.dirname(__file__))
+
+    model_path = os.path.join(os.path.dirname(__file__), "tuned_elasticnet_model.pkl")
+    print("📄 Model path:", model_path)  # This shows the exact path being loaded
+
+    model = joblib.load(model_path)
     return model
 
 model = load_model()
+
+
 
 
 
@@ -76,7 +83,7 @@ st.header("Enter Corrosion Parameters")
 # Example input fields (you can adjust names and ranges as in your dataset)
 Thickness_mm = st.number_input("Thickness (mm)", min_value=3.00, max_value=30.00, value=20.00)
 Temperature_C = st.number_input("Temperature_C", min_value=-30.00, max_value=120.00, value=50.00)
-Grade = st.selectbox("Material Type", ["A", "B", "C", "D","E"])
+Grade = st.selectbox("Grade", ["A", "B", "C", "D","E"])
 Condition = st.selectbox("Condition", ['Normal', 'Critical', 'Moderate'])
 Material_Loss_Percent = st.number_input("Material_Loss_Percent (percent)", min_value=0.0, max_value=100.0, value=50.0)
 Pipe_Size_mm = st.number_input("Pipe_Size_mm", min_value=53.00, max_value=1499.00, value=60.00)
@@ -125,4 +132,3 @@ st.markdown(
     "<center>Developed by <b>Ogunmakinju Thomas</b> | Materials & Corrosion Engineer | AI/ML Researcher</center>",
     unsafe_allow_html=True
 )
-
